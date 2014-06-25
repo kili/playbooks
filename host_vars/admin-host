@@ -1,0 +1,8 @@
+deployment_user: deployment
+
+host_conf:
+  collectd_monitored_network_interfaces:
+    - eth0
+
+  collectd_monitored_disks:
+    - vda1

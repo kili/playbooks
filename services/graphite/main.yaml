@@ -1,0 +1,63 @@
+---
+- name: graphite
+  hosts: graphite-hosts
+  sudo: True
+  gather_facts: True
+  tags:
+    - graphite
+  tasks:
+
+    - name: ensure required packages are installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - apache2
+        - libapache2-mod-wsgi
+        - graphite-web
+        - graphite-carbon
+        - python-passlib
+
+    - name: copy config files
+      template:
+        src: "templates/etc/{{ item }}"
+        dest: "/etc/{{ item }}"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - apache2/sites-available/graphite.conf
+        - default/graphite-carbon
+        - carbon/carbon.conf
+        - carbon/storage-schemas.conf
+        - graphite/local_settings.py
+
+    - name: initial syncdb
+      sudo_user: _graphite
+      command: /usr/bin/graphite-manage syncdb --noinput
+
+    - name: enable graphite apache2 config
+      file:
+        state: link
+        src: /etc/apache2/sites-available/graphite.conf
+        dest: /etc/apache2/sites-enabled/graphite.conf
+
+    - name: generate basic auth pw
+      htpasswd:
+        path: /etc/apache2/.htpasswd
+        name: admin
+        password: "{{ graphite_basic_auth_password }}"
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: restart related services
+      service:
+        name: "{{ item }}"
+        state: restarted 
+        enabled: yes
+      with_items:
+        - apache2
+        - carbon-cache

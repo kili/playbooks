@@ -1,0 +1,38 @@
+---
+- name: copy system settings
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: copy bash aliases
+      template:
+        src: templates/etc/profile.d/alias.sh
+        dest: /etc/profile.d/alias.sh
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: disable unwanted notification emails from sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - { regexp: '^Defaults\ \!mail_badpass$',
+            line: 'Defaults !mail_badpass', }
+        - { regexp: '^Defaults\ \!mail_no_user$',
+            line: 'Defaults !mail_no_user', }
+        - { regexp: '^Defaults\ insults$',
+            line: 'Defaults insults', }
+
+    - name: disable logging of non-interactive sudo sessions
+      lineinfile:
+        dest: /etc/pam.d/common-session-noninteractive
+        state: present
+        insertbefore: 'pam_unix\.so'
+        line: "session [success=1 default=ignore] pam_succeed_if.so service in sudo quiet use_uid"
+

@@ -1,0 +1,20 @@
+---
+- name: setup apt
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: copy sources.list with the kili mirror/cache host
+      template:
+        src: templates/etc/apt/sources.list
+        dest: /etc/apt/sources.list
+        owner: root
+        owner: root
+        mode: 0644
+
+    - name: update apt cache
+      apt: 
+        update_cache: yes

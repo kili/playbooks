@@ -1,0 +1,42 @@
+---
+- name: Install Celery workers
+  hosts: horizon-hosts
+  sudo: True
+  gather_facts: False
+  tags:
+    - horizon-environment
+  tasks:
+
+    - name: create required directories for celery
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "horizon"
+        group: "horizon"
+        mode: 0750
+      with_items:
+        - /var/log/celery
+        - /var/run/celery
+
+    - name: install celery worker init script
+      template:
+        src: templates/etc/init.d/celeryd
+        dest: /etc/init.d/celeryd
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: install celery worker config
+      template:
+        src: templates/etc/default/celeryd
+        dest: /etc/default/celeryd
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: ensure celery workers are restarted
+      service:
+        name: celeryd
+        state: restarted
+        enabled: yes
+      ignore_errors: True

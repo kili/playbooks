@@ -1,0 +1,12 @@
+---
+- include: apt.yaml
+- include: ssh.yaml
+- include: environment.yaml
+- include: grub.yaml
+- include: system.yaml
+- include: hostname.yaml
+- include: apticron.yaml
+- include: postfix.yaml
+- include: rsync.yaml
+- include: papertrail.yaml
+- include: lvm2_mdadm.yaml

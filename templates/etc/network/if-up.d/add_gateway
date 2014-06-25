@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/sbin/ip route add default via {{ host_conf[env_name].public_network_gw }}

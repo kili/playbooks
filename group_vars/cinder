@@ -1,0 +1,13 @@
+---
+cinder_conf:
+  localhost:
+    volume_devices: ["sdb2",]
+
+  staging:
+    volume_devices: ["sda6",]
+
+  ihub:
+    volume_devices: ["sda5", "sdb5",]
+
+  prod:
+    volume_devices: ["md3",]

@@ -1,0 +1,9 @@
+filetype plugin off
+call pathogen#helptags()
+execute pathogen#infect('bundle/{}')
+filetype plugin on
+filetype indent on
+color pablo
+syntax on
+se nu
+map <leader>n :NERDTreeToggle<CR>

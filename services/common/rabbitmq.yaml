@@ -1,0 +1,40 @@
+---
+- name: Configure RabbitMQ server
+  hosts: rabbitmq
+  sudo: True
+  gather_facts: True
+  tags:
+    - openstack
+  tasks:
+
+    - name: ensure rabbitmq server is installed
+      apt: 
+        pkg: rabbitmq-server 
+        state: latest 
+        update_cache: yes 
+        cache_valid_time: 600
+
+    - name: ensure rabbitmq server is stopped
+      service: 
+        name: rabbitmq-server 
+        state: stopped
+        enabled: yes
+
+    #- name: install rabbitmq config file that binds to management network interface
+    #  template:
+    #    src: templates/etc/rabbitmq/rabbitmq-env.conf
+    #    dest: /etc/rabbitmq/rabbitmq-env.conf
+    #    owner: root
+    #    group: root
+    #    mode: 0644
+
+    - name: ensure rabbitmq server is started and enabled
+      service: 
+        name: rabbitmq-server 
+        state: restarted 
+        enabled: yes
+
+    - name: ensure anonymous guest user is absent
+      rabbitmq_user: 
+        user: guest 
+        state: absent

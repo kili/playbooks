@@ -1,0 +1,19 @@
+#!/bin/sh
+{% set pubweb_ipnet = host_conf[env_name].public_network_address %}
+{% set pubweb_masklen = host_conf[env_name].public_network_mask|mask2len() %}
+{% set pubweb_netdev = host_conf[env_name].public_network_port %}
+{% set pubapi_ipnet = host_conf[env_name].pubapi_network_address %}
+{% set pubapi_masklen = host_conf[env_name].pubapi_network_mask|mask2len() %}
+{% set pubapi_netdev = host_conf[env_name].pubapi_network_port %}
+
+ip addr del {{ pubweb_ipnet }}/{{ pubweb_masklen }} dev {{ pubweb_netdev }}
+ip link set {{ pubweb_netdev }} up
+ip link set {{ pubweb_netdev }} promisc on
+ip addr add {{ pubweb_ipnet }}/{{ pubweb_masklen }} dev br-ex
+
+ip addr del {{ pubapi_ipnet }}/{{ pubapi_masklen }} dev {{ pubapi_netdev }}
+ip link set {{ pubapi_netdev }} up
+ip link set {{ pubapi_netdev }} promisc on
+ip addr add {{ pubapi_ipnet }}/{{ pubapi_masklen }} dev br-ex
+
+ip link set br-ex up

@@ -1,0 +1,3 @@
+- include: services/networking/main.yaml
+- include: services/base_environment/main.yaml
+- include: services/horizon_environment/main.yaml

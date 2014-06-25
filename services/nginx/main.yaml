@@ -1,0 +1,53 @@
+---
+- name: nginx
+  hosts: frontend_nginx
+  sudo: True
+  gather_facts: True
+  tags:
+    - frontend_nginx
+  tasks:
+
+    - name: ensure nginx is installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - nginx
+
+    - name: copy nginx configuration
+      template:
+        src: "templates/etc/nginx/sites-available/{{ item }}.conf"
+        dest: "/etc/nginx/sites-available/{{ item }}.conf"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - public_web
+        - public_api
+
+    - name: link nginx site configuration to enabled sites
+      file:
+        src: "/etc/nginx/sites-available/{{ item }}.conf"
+        dest: "/etc/nginx/sites-enabled/{{ item }}.conf"
+        state: link
+      with_items:
+        - public_web
+        - public_api
+
+    - name: delete default configs
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /etc/nginx/sites-enabled/default
+        - /etc/nginx/sites-available/default
+
+    - name: ensure nginx is restarted
+      service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - nginx

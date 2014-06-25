@@ -1,0 +1,196 @@
+api_upstreams:
+  localhost:
+    - name: 'keystone'
+      addr: '10.0.1.222:5000'
+
+    - name: 'ceilometer'
+      addr: '10.0.1.222:8777'
+
+    - name: 'neutron'
+      addr: '10.0.1.222:9696'
+
+    - name: 'heat'
+      addr: '10.0.1.222:8004'
+
+    - name: 'cfn'
+      addr: '10.0.1.222:8000'
+
+    - name: 'swift'
+      addr: '10.0.1.222:8888'
+
+    - name: 'cinder'
+      addr: '10.0.1.222:8776'
+
+    - name: 'glance'
+      addr: '10.0.1.222:9292'
+
+    - name: 'nova'
+      addr: '10.0.1.222:8774'
+
+    - name: 'ec2'
+      addr: '10.0.1.222:8773'
+  staging:
+    - name: 'keystone'
+      addr: '10.186.43.2:5000'
+
+    - name: 'ceilometer'
+      addr: '10.186.43.2:8777'
+
+    - name: 'neutron'
+      addr: '10.186.43.2:9696'
+
+    - name: 'heat'
+      addr: '10.186.43.2:8004'
+
+    - name: 'cfn'
+      addr: '10.186.43.2:8000'
+
+    - name: 'swift'
+      addr: '10.186.43.2:8888'
+
+    - name: 'cinder'
+      addr: '10.186.43.2:8776'
+
+    - name: 'glance'
+      addr: '10.186.43.2:9292'
+
+    - name: 'nova'
+      addr: '10.186.43.2:8774'
+
+    - name: 'ec2'
+      addr: '10.186.43.2:8773'
+
+  ihub:
+    - name: 'keystone'
+      addr: '10.186.43.12:5000'
+
+    - name: 'ceilometer'
+      addr: '10.186.43.12:8777'
+
+    - name: 'neutron'
+      addr: '10.186.43.12:9696'
+
+    - name: 'heat'
+      addr: '10.186.43.12:8004'
+
+    - name: 'cfn'
+      addr: '10.186.43.12:8000'
+
+    - name: 'swift'
+      addr: '10.186.43.12:8888'
+
+    - name: 'cinder'
+      addr: '10.186.43.12:8776'
+
+    - name: 'glance'
+      addr: '10.186.43.12:9292'
+
+    - name: 'nova'
+      addr: '10.186.43.12:8774'
+
+    - name: 'ec2'
+      addr: '10.186.43.12:8773'
+
+  prod:
+    - name: 'keystone'
+      addr: '10.1.0.2:5000'
+
+    - name: 'ceilometer'
+      addr: '10.1.0.2:8777'
+
+    - name: 'neutron'
+      addr: '10.1.0.2:9696'
+
+    - name: 'heat'
+      addr: '10.1.0.2:8004'
+
+    - name: 'cfn'
+      addr: '10.1.0.2:8000'
+
+    - name: 'swift'
+      addr: '10.1.0.2:8888'
+
+    - name: 'cinder'
+      addr: '10.1.0.2:8776'
+
+    - name: 'glance'
+      addr: '10.1.0.2:9292'
+
+    - name: 'nova'
+      addr: '10.1.0.2:8774'
+
+    - name: 'ec2'
+      addr: '10.1.0.2:8773'
+
+api_locations:
+  - pattern: '/keystone'
+    rewrite: '^/keystone(.*)$ $1'
+    upstream: 'keystone'
+
+  - pattern: '/ceilometer'
+    rewrite: '^/ceilometer(.*)$ $1'
+    upstream: 'ceilometer'
+
+  - pattern: '/neutron'
+    rewrite: '^/neutron(.*)$ $1'
+    upstream: 'neutron'
+
+  - pattern: '/heat'
+    rewrite: '^/heat(.*)$ $1'
+    upstream: 'heat'
+
+  - pattern: '/cfn'
+    rewrite: '^/cfn(.*)$ $1'
+    upstream: 'cfn'
+
+  - pattern: '/swift'
+    rewrite: '^/swift(.*)$ $1'
+    upstream: 'swift'
+
+  - pattern: '/glance'
+    rewrite: '^/glance(.*)$ $1'
+    upstream: 'glance'
+
+  - pattern: '/nova'
+    rewrite: '^/nova(.*)$ $1'
+    upstream: 'nova'
+
+  - pattern: '/ec2'
+    rewrite: '^/ec2(.*)$ $1'
+    upstream: 'ec2'
+
+# these patterns are all an extremely ugly workaround for the python-glanceclient
+# bug that makes it ignore the endpoint url given by keystone
+###
+  - pattern: '/project/images'
+    rewrite: ''
+    upstream: 'glance'
+
+  - pattern: '/v1/images'
+    rewrite: ''
+    upstream: 'glance'
+
+  - pattern: '/v2/schemas/image'
+    rewrite: ''
+    upstream: 'glance'
+
+  - pattern: '/v2/schemas/member'
+    rewrite: ''
+    upstream: 'glance'
+
+  - pattern: '/v2/images'
+    rewrite: ''
+    upstream: 'glance'
+###
+
+# due to a bug, the python-cinderclient requires the version number to be the
+# first part of the url, so it can't be /cinder
+###
+  - pattern: '/v1/cinder'
+    rewrite: '^/v1/cinder(.*)$ /v1$1'
+    upstream: 'cinder'
+
+  - pattern: '/v2/cinder'
+    rewrite: '^/v2/cinder(.*)$ /v2$1'
+    upstream: 'cinder'
+###

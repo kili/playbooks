@@ -1,0 +1,34 @@
+---
+- name: collectd
+  hosts: collectd-hosts
+  sudo: True
+  gather_facts: True
+  tags:
+    - collectd
+  tasks:
+
+    - name: ensure required packages are installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - collectd
+        - collectd-utils
+
+    - name: install collectd config file
+      template:
+        src: "templates/etc/collectd/{{ item }}.conf"
+        dest: "/etc/collectd/{{ item }}.conf"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - collectd
+
+    - name: restart collectd service
+      service:
+        name: collectd
+        state: restarted 
+        enabled: yes

@@ -1,0 +1,26 @@
+---
+- name: Modify rootwrap configurations
+  hosts: neutron 
+  sudo: True
+  gather_facts: True
+  tags:
+    - openstack
+
+  tasks:
+    - name: disable unwanted syslog warnings 
+      lineinfile:
+        dest: "{{ item }}" 
+        state: present
+        regexp: "^syslog_log_level=.*$"
+        line: "syslog_log_level=ERROR"
+      with_items:
+        - /etc/neutron/rootwrap.conf
+
+    - name: enable syslog 
+      lineinfile:
+        dest: "{{ item }}" 
+        state: present
+        regexp: "^use_syslog=.*$"
+        line: "use_syslog=True"
+      with_items:
+        - /etc/neutron/rootwrap.conf

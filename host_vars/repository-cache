@@ -1,0 +1,73 @@
+cache_device: /dev/vdb
+keys_zone_name: "repository_cache"
+proxy_cache_path: "/var/repo_mirror"
+proxy_cache_keys_zone: "{{ keys_zone_name }}:50m"
+proxy_cache_inactive_time: "14d"
+proxy_cache_valid_code: "200"
+proxy_cache_levels: "1:2"
+proxy_cache_max_size: "100g"
+proxy_index_path: "{{ proxy_cache_path }}/index_data"
+icon_directory: "/var/lib/nginx/icons"
+mirror_sync_root_dir: "/usr/local/mirror_sync"
+mirror_sync_log_prefix: "/var/log/mirror_sync"
+
+proxy_cache_use_stale:
+  - error
+  - timeout
+  - invalid_header
+  - updating
+
+proxy_next_upstream:
+  - error timeout
+  - invalid_header
+  - http_500
+  - http_502
+  - http_503
+  - http_504
+
+mirrors:
+  - name: "ubuntu"
+    dists: 
+      - precise
+      - precise-backports
+      - precise-proposed
+      - precise-security
+      - precise-updates
+      - trusty
+      - trusty-backports
+      - trusty-proposed
+      - trusty-security
+      - trusty-updates
+    frontend_uri: "/ubuntu"
+    dist_prefix: "/dists"
+    sync_hour: 0
+    upstreams:
+      main: "nl.archive.ubuntu.com"
+      backups:
+        - "ke.archive.ubuntu.com"
+
+  - name: "debian"
+    dists: 
+      - wheezy
+      - wheezy-backports
+      - wheezy-proposed-updates
+      - wheezy-updates
+    frontend_uri: "/debian"
+    dist_prefix: "/dists"
+    sync_hour: 2
+    upstreams:
+      main: "ftp.nl.debian.org"
+      backups:
+        - "ftp.de.debian.org"
+
+  - name: "centos"
+    dists:
+      - "6"
+      - "6.5"
+    frontend_uri: "/centos"
+    dist_prefix: ""
+    sync_hour: 4
+    upstreams:
+      main: "nl.mirror.eurid.eu"
+      backups:
+        - "mirror.nl.leaseweb.net"

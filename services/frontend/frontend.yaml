@@ -1,0 +1,45 @@
+---
+- name: gather keystone facts
+  hosts: keystone
+  sudo: False
+  gather_facts: True
+  tags:
+    - openstack
+
+- name: configure frontend system
+  hosts: frontend
+  sudo: False
+  gather_facts: True
+  tags:
+    - openstack
+  tasks:
+
+    - name: ensure clients are installed
+      apt: 
+        pkg: "{{ item }}" 
+        state: latest 
+        update_cache: yes 
+        cache_valid_time: 600
+      sudo: True
+      with_items:
+        - python-keystoneclient
+        - python-swiftclient
+        - python-glanceclient
+        - python-neutronclient
+        - python-cinderclient
+        - python-novaclient
+        - python-heatclient
+        - python-ceilometerclient
+
+    - name: update admin.openrc template
+      template: 
+        src: templates/admin.openrc 
+        dest: "{{ ansible_env['HOME'] }}/admin.openrc"
+        mode: 0600
+
+    - name: update token.openrc template
+      template: 
+        src: templates/token.openrc 
+        dest: "{{ ansible_env['HOME'] }}/token.openrc"
+        mode: 0600
+

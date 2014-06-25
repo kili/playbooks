@@ -1,0 +1,24 @@
+---
+- name: setup papertrail integration
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: copy papertrail rsyslog config
+      template:
+        src: templates/etc/rsyslog.d/papertrail.conf
+        dest: /etc/rsyslog.d/papertrail.conf
+        owner: root
+        owner: root
+        mode: 0644
+
+    - name: ensure rsyslog is restarted
+      service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - rsyslog

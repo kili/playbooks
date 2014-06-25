@@ -1,0 +1,28 @@
+---
+- name: Creates chroots for all nodes 
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tasks:
+
+    - name: update apt cache
+      apt: 
+        update_cache: yes
+
+    - name: ensure required base packages are present
+      apt: 
+        pkg: "debootstrap" 
+        state: latest 
+        update_cache: yes 
+        cache_valid_time: 600
+
+    - name: creates the actual chroots 
+      command: debootstrap --variant=buildd --arch amd64 precise /var/chroot/{{ item }} http://192.168.9.57/archive.ubuntu.com/ubuntu/
+    with_items:
+       - controller
+       - network
+       - compute
+       - storage
+
+    - name: ensure database is synced
+       command: /usr/bin/{{ component }}-manage db sync

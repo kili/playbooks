@@ -1,0 +1,651 @@
+host_conf:
+  collectd_monitored_network_interfaces:
+    - eth0
+    - eth1
+    - br-ex
+    - br-int
+    - br-tun
+
+  collectd_monitored_disks:
+    - sda5
+    - sdb5
+    - md0
+    - md1
+    - md2
+    - md3
+
+  localhost:
+    public_network_port: eth1:0
+    public_network: 10.0.1.0
+    public_network_mask: 255.255.255.0
+    public_network_bcast: 10.0.1.255
+    public_network_address: 10.0.1.222
+    public_dns_nameservers: 8.8.8.8 8.8.4.4
+    public_network_gw: 10.0.2.2
+
+    pubapi_network_port: eth1:1
+    pubapi_network: 10.0.1.0
+    pubapi_network_mask: 255.255.255.0
+    pubapi_network_bcast: 10.0.1.255
+    pubapi_network_address: 10.0.1.223
+
+    management_control_network_port: eth0:0
+    management_control_network: 10.0.2.0
+    management_control_network_mask: 255.255.255.0
+    management_control_network_bcast: 10.0.2.255
+    management_control_network_address: 10.0.2.222
+
+    management_network_network_port: eth0:1
+    management_network_network: 10.0.2.0
+    management_network_network_mask: 255.255.255.0
+    management_network_network_bcast: 10.0.2.255
+    management_network_network_address: 10.0.2.223
+
+    management_compute_network_port: eth0:2
+    management_compute_network: 10.0.2.0
+    management_compute_network_mask: 255.255.255.0
+    management_compute_network_bcast: 10.0.2.255
+    management_compute_network_address: 10.0.2.224
+
+    management_storage_network_port: eth0:3
+    management_storage_network: 10.0.2.0
+    management_storage_network_mask: 255.255.255.0
+    management_storage_network_bcast: 10.0.2.255
+    management_storage_network_address: 10.0.2.255
+
+    api_control_network_port: eth0:4
+    api_control_network: 10.2.0.0
+    api_control_network_mask: 255.255.255.0
+    api_control_network_bcast: 10.2.0.255
+    api_control_network_address: 10.2.0.2
+
+    api_network_network_port: eth0:5
+    api_network_network: 10.2.0.0
+    api_network_network_mask: 255.255.255.0
+    api_network_network_bcast: 10.2.0.255
+    api_network_network_address: 10.2.0.3
+
+    api_compute_network_port: eth0:6
+    api_compute_network: 10.2.0.0
+    api_compute_network_mask: 255.255.255.0
+    api_compute_network_bcast: 10.2.0.255
+    api_compute_network_address: 10.2.0.4
+
+    api_storage_network_port: eth0:7
+    api_storage_network: 10.2.0.0
+    api_storage_network_mask: 255.255.255.0
+    api_storage_network_bcast: 10.2.0.255
+    api_storage_network_address: 10.2.0.5
+
+    data_control_network_port: eth0:8
+    data_control_network: 10.3.0.0
+    data_control_network_mask: 255.255.255.0
+    data_control_network_bcast: 10.3.0.255
+    data_control_network_address: 10.3.0.2
+
+    data_network_network_port: eth0:9
+    data_network_network: 10.3.0.0
+    data_network_network_mask: 255.255.255.0
+    data_network_network_bcast: 10.3.0.255
+    data_network_network_address: 10.3.0.3
+
+    data_compute_network_port: eth0:10
+    data_compute_network: 10.3.0.0
+    data_compute_network_mask: 255.255.255.0
+    data_compute_network_bcast: 10.3.0.255
+    data_compute_network_address: 10.3.0.4
+
+    data_storage_network_port: eth0:11
+    data_storage_network: 10.3.0.0
+    data_storage_network_mask: 255.255.255.0
+    data_storage_network_bcast: 10.3.0.255
+    data_storage_network_address: 10.3.0.5
+
+    external_control_network_port: eth0:12
+    external_control_network: 10.4.0.0
+    external_control_network_mask: 255.255.255.0
+    external_control_network_bcast: 10.4.0.255
+    external_control_network_address: 10.4.0.2
+
+    external_network_network_port: eth0:13
+    external_network_network: 10.4.0.0
+    external_network_network_mask: 255.255.255.0
+    external_network_network_bcast: 10.4.0.255
+    external_network_network_address: 10.4.0.3
+
+    external_compute_network_port: eth0:14
+    external_compute_network: 10.4.0.0
+    external_compute_network_mask: 255.255.255.0
+    external_compute_network_bcast: 10.4.0.255
+    external_compute_network_address: 10.4.0.4
+
+    external_storage_network_port: eth0:15
+    external_storage_network: 10.4.0.0
+    external_storage_network_mask: 255.255.255.0
+    external_storage_network_bcast: 10.4.0.255
+    external_storage_network_address: 10.4.0.5
+
+    storage_control_network_port: eth0:16
+    storage_control_network: 10.5.0.0
+    storage_control_network_mask: 255.255.255.0
+    storage_control_network_bcast: 10.5.0.255
+    storage_control_network_address: 10.5.0.2
+
+    storage_network_network_port: eth0:17
+    storage_network_network: 10.5.0.0
+    storage_network_network_mask: 255.255.255.0
+    storage_network_network_bcast: 10.5.0.255
+    storage_network_network_address: 10.5.0.3
+
+    storage_compute_network_port: eth0:18
+    storage_compute_network: 10.5.0.0
+    storage_compute_network_mask: 255.255.255.0
+    storage_compute_network_bcast: 10.5.0.255
+    storage_compute_network_address: 10.5.0.4
+
+    storage_storage_network_port: eth0:19
+    storage_storage_network: 10.5.0.0
+    storage_storage_network_mask: 255.255.255.0
+    storage_storage_network_bcast: 10.5.0.255
+    storage_storage_network_address: 10.5.0.5
+
+    compute_control_network_port: eth0:20
+    compute_control_network: 10.6.0.0
+    compute_control_network_mask: 255.255.255.0
+    compute_control_network_bcast: 10.6.0.255
+    compute_control_network_address: 10.6.0.2
+
+    compute_network_network_port: eth0:21
+    compute_network_network: 10.6.0.0
+    compute_network_network_mask: 255.255.255.0
+    compute_network_network_bcast: 10.6.0.255
+    compute_network_network_address: 10.6.0.3
+
+    compute_compute_network_port: eth0:22
+    compute_compute_network: 10.6.0.0
+    compute_compute_network_mask: 255.255.255.0
+    compute_compute_network_bcast: 10.6.0.255
+    compute_compute_network_address: 10.6.0.4
+
+    compute_storage_network_port: eth0:23
+    compute_storage_network: 10.6.0.0
+    compute_storage_network_mask: 255.255.255.0
+    compute_storage_network_bcast: 10.6.0.255
+    compute_storage_network_address: 10.6.0.5
+
+  staging:
+    public_network_port: eth1:0
+    public_network: 192.168.0.0
+    public_network_gw: 192.168.1.1
+    public_network_mask: 255.255.240.0
+    public_network_bcast: 192.168.15.255
+    public_network_address: 192.168.11.4
+    public_dns_nameservers: 8.8.8.8 8.8.4.4
+
+    pubapi_network_port: eth1:1
+    pubapi_network: 192.168.0.0
+    pubapi_network_mask: 255.255.240.0
+    pubapi_network_bcast: 192.168.15.255
+    pubapi_network_address: 192.168.11.6
+
+    management_control_network_port: eth0:0
+    management_control_network: 10.186.43.0
+    management_control_network_mask: 255.255.255.0
+    management_control_network_bcast: 10.186.43.255
+    management_control_network_address: 10.186.43.2
+
+    management_network_network_port: eth0:1
+    management_network_network: 10.186.43.0
+    management_network_network_mask: 255.255.255.0
+    management_network_network_bcast: 10.186.43.255
+    management_network_network_address: 10.186.43.3
+
+    management_compute_network_port: eth0:2
+    management_compute_network: 10.186.43.0
+    management_compute_network_mask: 255.255.255.0
+    management_compute_network_bcast: 10.186.43.255
+    management_compute_network_address: 10.186.43.4
+
+    management_storage_network_port: eth0:3
+    management_storage_network: 10.186.43.0
+    management_storage_network_mask: 255.255.255.0
+    management_storage_network_bcast: 10.186.43.255
+    management_storage_network_address: 10.186.43.5
+
+    api_control_network_port: eth0:4
+    api_control_network: 10.2.0.0
+    api_control_network_mask: 255.255.255.0
+    api_control_network_bcast: 10.2.0.255
+    api_control_network_address: 10.2.0.2
+
+    api_network_network_port: eth0:5
+    api_network_network: 10.2.0.0
+    api_network_network_mask: 255.255.255.0
+    api_network_network_bcast: 10.2.0.255
+    api_network_network_address: 10.2.0.3
+
+    api_compute_network_port: eth0:6
+    api_compute_network: 10.2.0.0
+    api_compute_network_mask: 255.255.255.0
+    api_compute_network_bcast: 10.2.0.255
+    api_compute_network_address: 10.2.0.4
+
+    api_storage_network_port: eth0:7
+    api_storage_network: 10.2.0.0
+    api_storage_network_mask: 255.255.255.0
+    api_storage_network_bcast: 10.2.0.255
+    api_storage_network_address: 10.2.0.5
+
+    data_control_network_port: eth0:8
+    data_control_network: 10.3.0.0
+    data_control_network_mask: 255.255.255.0
+    data_control_network_bcast: 10.3.0.255
+    data_control_network_address: 10.3.0.2
+
+    data_network_network_port: eth0:9
+    data_network_network: 10.3.0.0
+    data_network_network_mask: 255.255.255.0
+    data_network_network_bcast: 10.3.0.255
+    data_network_network_address: 10.3.0.3
+
+    data_compute_network_port: eth0:10
+    data_compute_network: 10.3.0.0
+    data_compute_network_mask: 255.255.255.0
+    data_compute_network_bcast: 10.3.0.255
+    data_compute_network_address: 10.3.0.4
+
+    data_storage_network_port: eth0:11
+    data_storage_network: 10.3.0.0
+    data_storage_network_mask: 255.255.255.0
+    data_storage_network_bcast: 10.3.0.255
+    data_storage_network_address: 10.3.0.5
+
+    external_control_network_port: eth0:12
+    external_control_network: 10.4.0.0
+    external_control_network_mask: 255.255.255.0
+    external_control_network_bcast: 10.4.0.255
+    external_control_network_address: 10.4.0.2
+
+    external_network_network_port: eth0:13
+    external_network_network: 10.4.0.0
+    external_network_network_mask: 255.255.255.0
+    external_network_network_bcast: 10.4.0.255
+    external_network_network_address: 10.4.0.3
+
+    external_compute_network_port: eth0:14
+    external_compute_network: 10.4.0.0
+    external_compute_network_mask: 255.255.255.0
+    external_compute_network_bcast: 10.4.0.255
+    external_compute_network_address: 10.4.0.4
+
+    external_storage_network_port: eth0:15
+    external_storage_network: 10.4.0.0
+    external_storage_network_mask: 255.255.255.0
+    external_storage_network_bcast: 10.4.0.255
+    external_storage_network_address: 10.4.0.5
+
+    storage_control_network_port: eth0:16
+    storage_control_network: 10.5.0.0
+    storage_control_network_mask: 255.255.255.0
+    storage_control_network_bcast: 10.5.0.255
+    storage_control_network_address: 10.5.0.2
+
+    storage_network_network_port: eth0:17
+    storage_network_network: 10.5.0.0
+    storage_network_network_mask: 255.255.255.0
+    storage_network_network_bcast: 10.5.0.255
+    storage_network_network_address: 10.5.0.3
+
+    storage_compute_network_port: eth0:18
+    storage_compute_network: 10.5.0.0
+    storage_compute_network_mask: 255.255.255.0
+    storage_compute_network_bcast: 10.5.0.255
+    storage_compute_network_address: 10.5.0.4
+
+    storage_storage_network_port: eth0:19
+    storage_storage_network: 10.5.0.0
+    storage_storage_network_mask: 255.255.255.0
+    storage_storage_network_bcast: 10.5.0.255
+    storage_storage_network_address: 10.5.0.5
+
+    compute_control_network_port: eth0:20
+    compute_control_network: 10.6.0.0
+    compute_control_network_mask: 255.255.255.0
+    compute_control_network_bcast: 10.6.0.255
+    compute_control_network_address: 10.6.0.2
+
+    compute_network_network_port: eth0:21
+    compute_network_network: 10.6.0.0
+    compute_network_network_mask: 255.255.255.0
+    compute_network_network_bcast: 10.6.0.255
+    compute_network_network_address: 10.6.0.3
+
+    compute_compute_network_port: eth0:22
+    compute_compute_network: 10.6.0.0
+    compute_compute_network_mask: 255.255.255.0
+    compute_compute_network_bcast: 10.6.0.255
+    compute_compute_network_address: 10.6.0.4
+
+    compute_storage_network_port: eth0:23
+    compute_storage_network: 10.6.0.0
+    compute_storage_network_mask: 255.255.255.0
+    compute_storage_network_bcast: 10.6.0.255
+    compute_storage_network_address: 10.6.0.5
+
+  ihub:
+    public_network_port: eth1
+    public_network: 192.168.0.0
+    public_network_gw: 192.168.1.1
+    public_network_mask: 255.255.240.0
+    public_network_bcast: 192.168.15.255
+    public_network_address: 192.168.11.5
+    public_dns_nameservers: 8.8.8.8 8.8.4.4
+
+    pubapi_network_port: eth1:1
+    pubapi_network: 192.168.0.0
+    pubapi_network_mask: 255.255.240.0
+    pubapi_network_bcast: 192.168.15.255
+    pubapi_network_address: 192.168.11.7
+
+    management_control_network_port: eth0:0
+    management_control_network: 10.186.43.0
+    management_control_network_mask: 255.255.255.0
+    management_control_network_bcast: 10.186.43.255
+    management_control_network_address: 10.186.43.12
+
+    management_network_network_port: eth0:1
+    management_network_network: 10.186.43.0
+    management_network_network_mask: 255.255.255.0
+    management_network_network_bcast: 10.186.43.255
+    management_network_network_address: 10.186.43.13
+
+    management_compute_network_port: eth0:2
+    management_compute_network: 10.186.43.0
+    management_compute_network_mask: 255.255.255.0
+    management_compute_network_bcast: 10.186.43.255
+    management_compute_network_address: 10.186.43.14
+
+    management_storage_network_port: eth0:3
+    management_storage_network: 10.186.43.0
+    management_storage_network_mask: 255.255.255.0
+    management_storage_network_bcast: 10.186.43.255
+    management_storage_network_address: 10.186.43.15
+
+    api_control_network_port: eth0:4
+    api_control_network: 10.2.0.0
+    api_control_network_mask: 255.255.255.0
+    api_control_network_bcast: 10.2.0.255
+    api_control_network_address: 10.2.0.12
+
+    api_network_network_port: eth0:5
+    api_network_network: 10.2.0.0
+    api_network_network_mask: 255.255.255.0
+    api_network_network_bcast: 10.2.0.255
+    api_network_network_address: 10.2.0.13
+
+    api_compute_network_port: eth0:6
+    api_compute_network: 10.2.0.0
+    api_compute_network_mask: 255.255.255.0
+    api_compute_network_bcast: 10.2.0.255
+    api_compute_network_address: 10.2.0.14
+
+    api_storage_network_port: eth0:7
+    api_storage_network: 10.2.0.0
+    api_storage_network_mask: 255.255.255.0
+    api_storage_network_bcast: 10.2.0.255
+    api_storage_network_address: 10.2.0.15
+
+    data_control_network_port: eth0:8
+    data_control_network: 10.3.0.0
+    data_control_network_mask: 255.255.255.0
+    data_control_network_bcast: 10.3.0.255
+    data_control_network_address: 10.3.0.12
+
+    data_network_network_port: eth0:9
+    data_network_network: 10.3.0.0
+    data_network_network_mask: 255.255.255.0
+    data_network_network_bcast: 10.3.0.255
+    data_network_network_address: 10.3.0.13
+
+    data_compute_network_port: eth0:10
+    data_compute_network: 10.3.0.0
+    data_compute_network_mask: 255.255.255.0
+    data_compute_network_bcast: 10.3.0.255
+    data_compute_network_address: 10.3.0.14
+
+    data_storage_network_port: eth0:11
+    data_storage_network: 10.3.0.0
+    data_storage_network_mask: 255.255.255.0
+    data_storage_network_bcast: 10.3.0.255
+    data_storage_network_address: 10.3.0.15
+
+    external_control_network_port: eth0:12
+    external_control_network: 10.4.0.0
+    external_control_network_mask: 255.255.255.0
+    external_control_network_bcast: 10.4.0.255
+    external_control_network_address: 10.4.0.12
+
+    external_network_network_port: eth0:13
+    external_network_network: 10.4.0.0
+    external_network_network_mask: 255.255.255.0
+    external_network_network_bcast: 10.4.0.255
+    external_network_network_address: 10.4.0.13
+
+    external_compute_network_port: eth0:14
+    external_compute_network: 10.4.0.0
+    external_compute_network_mask: 255.255.255.0
+    external_compute_network_bcast: 10.4.0.255
+    external_compute_network_address: 10.4.0.14
+
+    external_storage_network_port: eth0:15
+    external_storage_network: 10.4.0.0
+    external_storage_network_mask: 255.255.255.0
+    external_storage_network_bcast: 10.4.0.255
+    external_storage_network_address: 10.4.0.15
+
+    storage_control_network_port: eth0:16
+    storage_control_network: 10.5.0.0
+    storage_control_network_mask: 255.255.255.0
+    storage_control_network_bcast: 10.5.0.255
+    storage_control_network_address: 10.5.0.12
+
+    storage_network_network_port: eth0:17
+    storage_network_network: 10.5.0.0
+    storage_network_network_mask: 255.255.255.0
+    storage_network_network_bcast: 10.5.0.255
+    storage_network_network_address: 10.5.0.13
+
+    storage_compute_network_port: eth0:18
+    storage_compute_network: 10.5.0.0
+    storage_compute_network_mask: 255.255.255.0
+    storage_compute_network_bcast: 10.5.0.255
+    storage_compute_network_address: 10.5.0.14
+
+    storage_storage_network_port: eth0:19
+    storage_storage_network: 10.5.0.0
+    storage_storage_network_mask: 255.255.255.0
+    storage_storage_network_bcast: 10.5.0.255
+    storage_storage_network_address: 10.5.0.15
+
+    compute_control_network_port: eth0:20
+    compute_control_network: 10.6.0.0
+    compute_control_network_mask: 255.255.255.0
+    compute_control_network_bcast: 10.6.0.255
+    compute_control_network_address: 10.6.0.12
+
+    compute_network_network_port: eth0:21
+    compute_network_network: 10.6.0.0
+    compute_network_network_mask: 255.255.255.0
+    compute_network_network_bcast: 10.6.0.255
+    compute_network_network_address: 10.6.0.13
+
+    compute_compute_network_port: eth0:22
+    compute_compute_network: 10.6.0.0
+    compute_compute_network_mask: 255.255.255.0
+    compute_compute_network_bcast: 10.6.0.255
+    compute_compute_network_address: 10.6.0.14
+
+    compute_storage_network_port: eth0:23
+    compute_storage_network: 10.6.0.0
+    compute_storage_network_mask: 255.255.255.0
+    compute_storage_network_bcast: 10.6.0.255
+    compute_storage_network_address: 10.6.0.15
+
+  prod:
+    public_network_port: eth0
+    public_network: 154.72.0.0
+    public_network_gw: 154.72.0.1
+    public_network_mask: 255.255.252.0
+    public_network_bcast: 154.72.3.255
+    public_network_address: 154.72.0.5
+    public_dns_nameservers: 8.8.8.8 8.8.4.4
+
+    pubapi_network_port: eth0:1
+    pubapi_network: 154.72.0.0
+    pubapi_network_mask: 255.255.252.0
+    pubapi_network_bcast: 154.72.3.255
+    pubapi_network_address: 154.72.0.8
+
+    management_control_network_port: eth1:0
+    management_control_network: 10.1.0.0
+    management_control_network_mask: 255.255.255.0
+    management_control_network_bcast: 10.1.0.255
+    management_control_network_address: 10.1.0.2
+
+    management_network_network_port: eth1:1
+    management_network_network: 10.1.0.0
+    management_network_network_mask: 255.255.255.0
+    management_network_network_bcast: 10.1.0.255
+    management_network_network_address: 10.1.0.3
+
+    management_compute_network_port: eth1:2
+    management_compute_network: 10.1.0.0
+    management_compute_network_mask: 255.255.255.0
+    management_compute_network_bcast: 10.1.0.255
+    management_compute_network_address: 10.1.0.4
+
+    management_storage_network_port: eth1:3
+    management_storage_network: 10.1.0.0
+    management_storage_network_mask: 255.255.255.0
+    management_storage_network_bcast: 10.1.0.255
+    management_storage_network_address: 10.1.0.5
+
+    api_control_network_port: eth1:4
+    api_control_network: 10.2.0.0
+    api_control_network_mask: 255.255.255.0
+    api_control_network_bcast: 10.2.0.255
+    api_control_network_address: 10.2.0.2
+
+    api_network_network_port: eth1:5
+    api_network_network: 10.2.0.0
+    api_network_network_mask: 255.255.255.0
+    api_network_network_bcast: 10.2.0.255
+    api_network_network_address: 10.2.0.3
+
+    api_compute_network_port: eth1:6
+    api_compute_network: 10.2.0.0
+    api_compute_network_mask: 255.255.255.0
+    api_compute_network_bcast: 10.2.0.255
+    api_compute_network_address: 10.2.0.4
+
+    api_storage_network_port: eth1:7
+    api_storage_network: 10.2.0.0
+    api_storage_network_mask: 255.255.255.0
+    api_storage_network_bcast: 10.2.0.255
+    api_storage_network_address: 10.2.0.5
+
+    data_control_network_port: eth1:8
+    data_control_network: 10.3.0.0
+    data_control_network_mask: 255.255.255.0
+    data_control_network_bcast: 10.3.0.255
+    data_control_network_address: 10.3.0.2
+
+    data_network_network_port: eth1:9
+    data_network_network: 10.3.0.0
+    data_network_network_mask: 255.255.255.0
+    data_network_network_bcast: 10.3.0.255
+    data_network_network_address: 10.3.0.3
+
+    data_compute_network_port: eth1:10
+    data_compute_network: 10.3.0.0
+    data_compute_network_mask: 255.255.255.0
+    data_compute_network_bcast: 10.3.0.255
+    data_compute_network_address: 10.3.0.4
+
+    data_storage_network_port: eth1:11
+    data_storage_network: 10.3.0.0
+    data_storage_network_mask: 255.255.255.0
+    data_storage_network_bcast: 10.3.0.255
+    data_storage_network_address: 10.3.0.5
+
+    external_control_network_port: eth1:12
+    external_control_network: 10.4.0.0
+    external_control_network_mask: 255.255.255.0
+    external_control_network_bcast: 10.4.0.255
+    external_control_network_address: 10.4.0.2
+
+    external_network_network_port: eth1:13
+    external_network_network: 10.4.0.0
+    external_network_network_mask: 255.255.255.0
+    external_network_network_bcast: 10.4.0.255
+    external_network_network_address: 10.4.0.3
+
+    external_compute_network_port: eth1:14
+    external_compute_network: 10.4.0.0
+    external_compute_network_mask: 255.255.255.0
+    external_compute_network_bcast: 10.4.0.255
+    external_compute_network_address: 10.4.0.4
+
+    external_storage_network_port: eth1:15
+    external_storage_network: 10.4.0.0
+    external_storage_network_mask: 255.255.255.0
+    external_storage_network_bcast: 10.4.0.255
+    external_storage_network_address: 10.4.0.5
+
+    storage_control_network_port: eth1:16
+    storage_control_network: 10.5.0.0
+    storage_control_network_mask: 255.255.255.0
+    storage_control_network_bcast: 10.5.0.255
+    storage_control_network_address: 10.5.0.2
+
+    storage_network_network_port: eth1:17
+    storage_network_network: 10.5.0.0
+    storage_network_network_mask: 255.255.255.0
+    storage_network_network_bcast: 10.5.0.255
+    storage_network_network_address: 10.5.0.3
+
+    storage_compute_network_port: eth1:18
+    storage_compute_network: 10.5.0.0
+    storage_compute_network_mask: 255.255.255.0
+    storage_compute_network_bcast: 10.5.0.255
+    storage_compute_network_address: 10.5.0.4
+
+    storage_storage_network_port: eth1:19
+    storage_storage_network: 10.5.0.0
+    storage_storage_network_mask: 255.255.255.0
+    storage_storage_network_bcast: 10.5.0.255
+    storage_storage_network_address: 10.5.0.5
+
+    compute_control_network_port: eth1:20
+    compute_control_network: 10.6.0.0
+    compute_control_network_mask: 255.255.255.0
+    compute_control_network_bcast: 10.6.0.255
+    compute_control_network_address: 10.6.0.2
+
+    compute_network_network_port: eth1:21
+    compute_network_network: 10.6.0.0
+    compute_network_network_mask: 255.255.255.0
+    compute_network_network_bcast: 10.6.0.255
+    compute_network_network_address: 10.6.0.3
+
+    compute_compute_network_port: eth1:22
+    compute_compute_network: 10.6.0.0
+    compute_compute_network_mask: 255.255.255.0
+    compute_compute_network_bcast: 10.6.0.255
+    compute_compute_network_address: 10.6.0.4
+
+    compute_storage_network_port: eth1:23
+    compute_storage_network: 10.6.0.0
+    compute_storage_network_mask: 255.255.255.0
+    compute_storage_network_bcast: 10.6.0.255
+    compute_storage_network_address: 10.6.0.5

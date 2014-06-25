@@ -1,0 +1,26 @@
+---
+- name: install mdadm and lvm2 packages
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: ensure lvm and mdadm are installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - lvm2
+        - mdadm
+
+    - name: ensure mdadm service is started
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - mdadm

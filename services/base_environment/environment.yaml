@@ -1,0 +1,79 @@
+---
+- name: create basic work environment
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: ensure basic packages are installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - zsh
+        - vim
+        - telnet
+        - tcpdump
+        - traceroute
+        - strace
+        - man-db
+        - iptables
+        - screen
+        - ipmitool
+        - lsof
+        - mtr
+        - curl
+        - sysstat
+        - git
+      ignore_errors: True
+
+    - name: set editor to use vim.basic
+      command: update-alternatives --set editor /usr/bin/vim.basic
+
+    - name: install environment name in profile.d
+      template:
+        src: templates/etc/profile.d/env_name.sh
+        dest: /etc/profile.d/env_name.sh
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: create vim plugin bundle directory
+      file:
+        state: directory
+        path: "{{ item }}"
+        owner: root
+        group: root
+        mode: 0700
+      with_items:
+        - /root/.vim/bundle
+        - /root/.vim/autoload
+
+    - name: clone git plugin repos into root plugins dir
+      git:
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        update: yes
+      with_items:
+        - { repo: "https://github.com/tpope/vim-pathogen.git",
+            dest: "/root/.vim/bundle/pathogen" }
+        - { repo: "https://github.com/fholgado/minibufexpl.vim.git",
+            dest: "/root/.vim/bundle/minibufexpl" }
+        - { repo: "https://github.com/scrooloose/nerdtree.git",
+            dest: "/root/.vim/bundle/nerdtree" }
+
+    - name: link pathogen to vim autoload
+      file:
+        state: link
+        dest: /root/.vim/autoload/pathogen.vim
+        src: /root/.vim/bundle/pathogen/autoload/pathogen.vim
+
+    - name: copy vimrc to root
+      copy:
+        mode: 0600
+        src: "files/vimrc/root"
+        dest: "/root/.vimrc"

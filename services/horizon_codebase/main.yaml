@@ -1,0 +1,93 @@
+---
+- name: deploy horizon codebase
+  hosts: horizon-hosts
+  sudo: True
+  gather_facts: True
+  tags:
+    - horizon_codebase
+  tasks:
+
+    - name: ensure required directories are present
+      file:
+        state: directory
+        path: "{{ item }}"
+      with_items:
+      - "{{ versioned_codebase_path }}"
+      - "{{ checkout_path }}"
+      - "{{ dashboard_venv }}"
+
+    - name: checking out codebase
+      git:
+        depth: 1
+        repo: "{{ git_url }}"
+        dest: "{{ checkout_path }}"
+        version: "{{ git_branch }}"
+
+    - name: install requirements according to requirements.txt
+      pip:
+        state: present
+        requirements: "{{ checkout_path }}/requirements.txt"
+        virtualenv: "{{ dashboard_venv }}"
+
+    - name: create symlink link local_settings file
+      file:
+        state: link
+        dest: "{{ item.dest }}"
+        src: "{{ item.src }}"
+        force: yes
+      with_items:
+        - { dest: "{{ checkout_path }}/kili/local/local_settings.py",
+            src: /etc/openstack-dashboard/local_settings.py }
+
+    - name: compress static files and execute south migration
+      django_manage:
+        command: "{{ item }}"
+        app_path: "{{ checkout_path }}"
+        virtualenv: "{{ dashboard_venv }}"
+      with_items:
+        - collectstatic --noinput
+        - compress
+        - syncdb
+        - migrate
+
+    - name: create symlinks to link to environment logos
+      file:
+        state: link
+        dest: "{{ item.dest }}"
+        src: "{{ item.src }}"
+        force: yes
+      with_items:
+        - { dest: "{{ checkout_path }}/static/dashboard/img/logo.png",
+            src: "{{ checkout_path }}/static/dashboard/img/logo-{{ env_name }}.png" }
+        - { dest: "{{ checkout_path }}/static/dashboard/img/logo-splash.png",
+            src: "{{ checkout_path }}/static/dashboard/img/logo-splash-{{ env_name }}.png" }
+
+    - name: stop celeryd
+      service:
+        name: "{{ item }}"
+        state: stopped
+      with_items:
+        - celeryd
+
+    - name: make the new codebase current
+      file:
+        force: yes
+        state: link
+        dest: "{{ codebase_path }}"
+        src: "{{ checkout_path }}"
+
+    - name: ensure services are restarted and enabled
+      service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - apache2
+
+    - name: start celeryd
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - celeryd

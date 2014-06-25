@@ -1,0 +1,8 @@
+CELERYD_VIRTENV="{{ dashboard_venv }}"
+CELERYD_USER="horizon"
+CELERYD_GROUP="horizon"
+CELERYD_PID_FILE="/var/run/celery/async.pid"
+CELERYD_LOG_FILE="/var/log/celery/async.log"
+CELERYD_NODES="worker"
+CELERYD_APPS="async"
+CELERYD_DIRECTORY="{{ codebase_path }}"

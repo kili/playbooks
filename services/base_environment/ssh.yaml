@@ -1,0 +1,24 @@
+---
+- name: configure ssh
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: copy sshd_config
+      template:
+        src: templates/etc/ssh/sshd_config
+        dest: /etc/ssh/sshd_config
+        owner: root
+        owner: root
+        mode: 0644
+
+    - name: ensure needed services are started and start on boot
+      service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - ssh

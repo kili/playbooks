@@ -1,0 +1,27 @@
+---
+- name: set hostname
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: copy hostname file
+      template:
+        src: templates/etc/hostname
+        dest: /etc/hostname
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: copy hosts file template
+      template:
+        src: templates/etc/hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: set hostname
+      command: /bin/hostname "{{ hostname }}"

@@ -1,0 +1,33 @@
+---
+- name: setup apticron
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: ensure apticron package is installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - apticron
+
+    - name: copy apticron config
+      template:
+        src: templates/etc/apticron/apticron.conf
+        dest: /etc/apticron/apticron.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: copy apticron cronjob
+      template:
+        src: templates/etc/cron.daily/apticron
+        dest: /etc/cron.daily/apticron
+        owner: root
+        group: root
+        mode: 0644

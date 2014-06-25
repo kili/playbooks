@@ -1,0 +1,96 @@
+---
+- name: install deployment environment
+  hosts: admin-host
+  sudo: True
+  gather_facts: True
+  tags:
+    - admin-host
+  tasks:
+
+    - name: ensure basic packages are installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - python-pip
+        - python-virtualenv
+        - libssl-dev
+        - virtualenvwrapper
+        - git
+        - gcc
+        - python-dev
+        - screen
+        - qemu-utils
+        - libffi-dev
+
+    - name: create deployment user
+      user:
+        name: "{{ deployment_user }}"
+        shell: /bin/bash
+
+    - name: ensure our public keys are in authorized_keys
+      sudo_user: "{{ deployment_user }}"
+      authorized_key: 
+        key: "{{ item }}"
+        user: "{{ deployment_user }}"
+      with_items: ssh_authorized_keys
+
+    - name: ensure required directories exist
+      sudo_user: "{{ deployment_user }}"
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0700
+      with_items:
+        - "/home/{{ deployment_user }}/keys"
+        - "/home/{{ deployment_user }}/credentials"
+        - "/home/{{ deployment_user }}/deployment"
+        - "/home/{{ deployment_user }}/images/creds/"
+
+    - name: ensure key files are present
+      sudo_user: "{{ deployment_user }}"
+      copy:
+        mode: 0600
+        src: files/admin_host/keys/
+        dest: "/home/{{ deployment_user }}/keys/"
+
+    - name: clone deployment scripts repo
+      sudo_user: "{{ deployment_user }}"
+      git:
+        repo: git@github.com:kili/deployment_scripts
+        accept_hostkey: yes
+        dest: /home/deployment/scripts
+        update: yes
+        key_file: "/home/{{ deployment_user }}/keys/deployment_scripts/id_rsa"
+
+    - name: ensure ansible virtualenv is present
+      sudo_user: "{{ deployment_user }}"
+      pip:
+        virtualenv: "/home/{{ deployment_user }}/.venv"
+        requirements: "/home/{{ deployment_user }}/scripts/requirements.txt"
+        state: present
+
+    - name: allow deployment user to (u)mount and mod raw and qcow(2) images sans password
+      lineinfile:
+        dest: /etc/sudoers
+        line: "{{ item }}"
+        insertafter: EOF
+        backup: yes
+      with_items:
+        - "{{ deployment_user }} ALL=(ALL) NOPASSWD: /usr/bin/qemu-nbd"
+        - "{{ deployment_user }} ALL=(ALL) NOPASSWD: /bin/mount"
+        - "{{ deployment_user }} ALL=(ALL) NOPASSWD: /bin/umount"
+        - "{{ deployment_user }} ALL=(ALL) NOPASSWD: /sbin/partprobe"
+        - "{{ deployment_user }} ALL=(ALL) NOPASSWD: /sbin/losetup"
+
+    - name: modprobe nbd kernel module to mount qcow2 images with qemu-nbd
+      command: "modprobe nbd max_part=16"
+
+    - name: create/update admin.openrc (creds for use with glance)
+      template:
+        src: templates/admin.openrc
+        dest: "/home/{{ deployment_user }}/images/creds/admin.openrc"
+        mode: 0600
+

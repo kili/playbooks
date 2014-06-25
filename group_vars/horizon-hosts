@@ -1,0 +1,7 @@
+git_url:                    https://github.com/kili/dashboard.git
+git_branch:                 master
+virtualenv_executable:      /usr/bin/virtualenv
+codebase_path:              /opt/horizon
+versioned_codebase_path:    "{{ codebase_path }}-versioned"
+checkout_path:              "{{ versioned_codebase_path }}/{{ ansible_date_time['epoch'] }}"
+dashboard_venv:             "/opt/horizon-venv"

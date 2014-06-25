@@ -1,0 +1,188 @@
+auto lo
+iface lo inet loopback
+
+auto {{ host_conf[env_name].management_control_network_port }}
+iface {{ host_conf[env_name].management_control_network_port }} inet static
+  address {{ host_conf[env_name].management_control_network_address }}
+  network {{ host_conf[env_name].management_control_network }}
+  netmask {{ host_conf[env_name].management_control_network_mask }}
+  broadcast {{ host_conf[env_name].management_control_network_bcast }}
+
+auto {{ host_conf[env_name].management_network_network_port }}
+iface {{ host_conf[env_name].management_network_network_port }} inet static
+  address {{ host_conf[env_name].management_network_network_address }}
+  network {{ host_conf[env_name].management_network_network }}
+  netmask {{ host_conf[env_name].management_network_network_mask }}
+  broadcast {{ host_conf[env_name].management_network_network_bcast }}
+
+auto {{ host_conf[env_name].management_compute_network_port }}
+iface {{ host_conf[env_name].management_compute_network_port }} inet static
+  address {{ host_conf[env_name].management_compute_network_address }}
+  network {{ host_conf[env_name].management_compute_network }}
+  netmask {{ host_conf[env_name].management_compute_network_mask }}
+  broadcast {{ host_conf[env_name].management_compute_network_bcast }}
+
+auto {{ host_conf[env_name].management_storage_network_port }}
+iface {{ host_conf[env_name].management_storage_network_port }} inet static
+  address {{ host_conf[env_name].management_storage_network_address }}
+  network {{ host_conf[env_name].management_storage_network }}
+  netmask {{ host_conf[env_name].management_storage_network_mask }}
+  broadcast {{ host_conf[env_name].management_storage_network_bcast }}
+
+auto {{ host_conf[env_name].api_control_network_port }}
+iface {{ host_conf[env_name].api_control_network_port }} inet static
+  address {{ host_conf[env_name].api_control_network_address }}
+  network {{ host_conf[env_name].api_control_network }}
+  netmask {{ host_conf[env_name].api_control_network_mask }}
+  broadcast {{ host_conf[env_name].api_control_network_bcast }}
+
+auto {{ host_conf[env_name].api_network_network_port }}
+iface {{ host_conf[env_name].api_network_network_port }} inet static
+  address {{ host_conf[env_name].api_network_network_address }}
+  network {{ host_conf[env_name].api_network_network }}
+  netmask {{ host_conf[env_name].api_network_network_mask }}
+  broadcast {{ host_conf[env_name].api_network_network_bcast }}
+
+auto {{ host_conf[env_name].api_compute_network_port }}
+iface {{ host_conf[env_name].api_compute_network_port }} inet static
+  address {{ host_conf[env_name].api_compute_network_address }}
+  network {{ host_conf[env_name].api_compute_network }}
+  netmask {{ host_conf[env_name].api_compute_network_mask }}
+  broadcast {{ host_conf[env_name].api_compute_network_bcast }}
+
+auto {{ host_conf[env_name].api_storage_network_port }}
+iface {{ host_conf[env_name].api_storage_network_port }} inet static
+  address {{ host_conf[env_name].api_storage_network_address }}
+  network {{ host_conf[env_name].api_storage_network }}
+  netmask {{ host_conf[env_name].api_storage_network_mask }}
+  broadcast {{ host_conf[env_name].api_storage_network_bcast }}
+
+auto {{ host_conf[env_name].data_control_network_port }}
+iface {{ host_conf[env_name].data_control_network_port }} inet static
+  address {{ host_conf[env_name].data_control_network_address }}
+  network {{ host_conf[env_name].data_control_network }}
+  netmask {{ host_conf[env_name].data_control_network_mask }}
+  broadcast {{ host_conf[env_name].data_control_network_bcast }}
+
+auto {{ host_conf[env_name].data_network_network_port }}
+iface {{ host_conf[env_name].data_network_network_port }} inet static
+  address {{ host_conf[env_name].data_network_network_address }}
+  network {{ host_conf[env_name].data_network_network }}
+  netmask {{ host_conf[env_name].data_network_network_mask }}
+  broadcast {{ host_conf[env_name].data_network_network_bcast }}
+
+auto {{ host_conf[env_name].data_compute_network_port }}
+iface {{ host_conf[env_name].data_compute_network_port }} inet static
+  address {{ host_conf[env_name].data_compute_network_address }}
+  network {{ host_conf[env_name].data_compute_network }}
+  netmask {{ host_conf[env_name].data_compute_network_mask }}
+  broadcast {{ host_conf[env_name].data_compute_network_bcast }}
+
+auto {{ host_conf[env_name].data_storage_network_port }}
+iface {{ host_conf[env_name].data_storage_network_port }} inet static
+  address {{ host_conf[env_name].data_storage_network_address }}
+  network {{ host_conf[env_name].data_storage_network }}
+  netmask {{ host_conf[env_name].data_storage_network_mask }}
+  broadcast {{ host_conf[env_name].data_storage_network_bcast }}
+
+auto {{ host_conf[env_name].external_control_network_port }}
+iface {{ host_conf[env_name].external_control_network_port }} inet static
+  address {{ host_conf[env_name].external_control_network_address }}
+  network {{ host_conf[env_name].external_control_network }}
+  netmask {{ host_conf[env_name].external_control_network_mask }}
+  broadcast {{ host_conf[env_name].external_control_network_bcast }}
+
+auto {{ host_conf[env_name].external_network_network_port }}
+iface {{ host_conf[env_name].external_network_network_port }} inet static
+  address {{ host_conf[env_name].external_network_network_address }}
+  network {{ host_conf[env_name].external_network_network }}
+  netmask {{ host_conf[env_name].external_network_network_mask }}
+  broadcast {{ host_conf[env_name].external_network_network_bcast }}
+
+auto {{ host_conf[env_name].external_compute_network_port }}
+iface {{ host_conf[env_name].external_compute_network_port }} inet static
+  address {{ host_conf[env_name].external_compute_network_address }}
+  network {{ host_conf[env_name].external_compute_network }}
+  netmask {{ host_conf[env_name].external_compute_network_mask }}
+  broadcast {{ host_conf[env_name].external_compute_network_bcast }}
+
+auto {{ host_conf[env_name].external_storage_network_port }}
+iface {{ host_conf[env_name].external_storage_network_port }} inet static
+  address {{ host_conf[env_name].external_storage_network_address }}
+  network {{ host_conf[env_name].external_storage_network }}
+  netmask {{ host_conf[env_name].external_storage_network_mask }}
+  broadcast {{ host_conf[env_name].external_storage_network_bcast }}
+
+auto {{ host_conf[env_name].storage_control_network_port }}
+iface {{ host_conf[env_name].storage_control_network_port }} inet static
+  address {{ host_conf[env_name].storage_control_network_address }}
+  network {{ host_conf[env_name].storage_control_network }}
+  netmask {{ host_conf[env_name].storage_control_network_mask }}
+  broadcast {{ host_conf[env_name].storage_control_network_bcast }}
+
+auto {{ host_conf[env_name].storage_network_network_port }}
+iface {{ host_conf[env_name].storage_network_network_port }} inet static
+  address {{ host_conf[env_name].storage_network_network_address }}
+  network {{ host_conf[env_name].storage_network_network }}
+  netmask {{ host_conf[env_name].storage_network_network_mask }}
+  broadcast {{ host_conf[env_name].storage_network_network_bcast }}
+
+auto {{ host_conf[env_name].storage_compute_network_port }}
+iface {{ host_conf[env_name].storage_compute_network_port }} inet static
+  address {{ host_conf[env_name].storage_compute_network_address }}
+  network {{ host_conf[env_name].storage_compute_network }}
+  netmask {{ host_conf[env_name].storage_compute_network_mask }}
+  broadcast {{ host_conf[env_name].storage_compute_network_bcast }}
+
+auto {{ host_conf[env_name].storage_storage_network_port }}
+iface {{ host_conf[env_name].storage_storage_network_port }} inet static
+  address {{ host_conf[env_name].storage_storage_network_address }}
+  network {{ host_conf[env_name].storage_storage_network }}
+  netmask {{ host_conf[env_name].storage_storage_network_mask }}
+  broadcast {{ host_conf[env_name].storage_storage_network_bcast }}
+
+auto {{ host_conf[env_name].compute_control_network_port }}
+iface {{ host_conf[env_name].compute_control_network_port }} inet static
+  address {{ host_conf[env_name].compute_control_network_address }}
+  network {{ host_conf[env_name].compute_control_network }}
+  netmask {{ host_conf[env_name].compute_control_network_mask }}
+  broadcast {{ host_conf[env_name].compute_control_network_bcast }}
+
+auto {{ host_conf[env_name].compute_network_network_port }}
+iface {{ host_conf[env_name].compute_network_network_port }} inet static
+  address {{ host_conf[env_name].compute_network_network_address }}
+  network {{ host_conf[env_name].compute_network_network }}
+  netmask {{ host_conf[env_name].compute_network_network_mask }}
+  broadcast {{ host_conf[env_name].compute_network_network_bcast }}
+
+auto {{ host_conf[env_name].compute_compute_network_port }}
+iface {{ host_conf[env_name].compute_compute_network_port }} inet static
+  address {{ host_conf[env_name].compute_compute_network_address }}
+  network {{ host_conf[env_name].compute_compute_network }}
+  netmask {{ host_conf[env_name].compute_compute_network_mask }}
+  broadcast {{ host_conf[env_name].compute_compute_network_bcast }}
+
+auto {{ host_conf[env_name].compute_storage_network_port }}
+iface {{ host_conf[env_name].compute_storage_network_port }} inet static
+  address {{ host_conf[env_name].compute_storage_network_address }}
+  network {{ host_conf[env_name].compute_storage_network }}
+  netmask {{ host_conf[env_name].compute_storage_network_mask }}
+  broadcast {{ host_conf[env_name].compute_storage_network_bcast }}
+
+#public
+auto {{ host_conf[env_name].public_network_port }}
+iface {{ host_conf[env_name].public_network_port }} inet static
+  address {{ host_conf[env_name].public_network_address }}
+  network {{ host_conf[env_name].public_network }}
+  netmask {{ host_conf[env_name].public_network_mask }}
+  broadcast {{ host_conf[env_name].public_network_bcast }}
+  gateway {{ host_conf[env_name].public_network_gw }}
+  dns-nameservers {{ host_conf[env_name].public_dns_nameservers }}
+
+#public api
+auto {{ host_conf[env_name].pubapi_network_port }}
+iface {{ host_conf[env_name].pubapi_network_port }} inet static
+  address {{ host_conf[env_name].pubapi_network_address }}
+  network {{ host_conf[env_name].pubapi_network }}
+  netmask {{ host_conf[env_name].pubapi_network_mask }}
+  broadcast {{ host_conf[env_name].pubapi_network_bcast }}

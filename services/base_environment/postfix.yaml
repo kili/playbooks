@@ -1,0 +1,42 @@
+---
+- name: setup postfix MTA
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: ensure postfix is installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - postfix
+        - libsasl2-modules
+
+    - name: copy postfix config
+      template:
+        src: templates/etc/postfix/main.cf
+        dest: /etc/postfix/main.cf
+        owner: root
+        owner: root
+        mode: 0644
+
+    - name: ensure root mail is redirected
+      lineinfile: 'dest=/etc/aliases state=present regexp="^root:\s+" line="root: {{ root_mail_forward }}"'
+      register: result
+
+    - name: apply the new aliases
+      command: /usr/bin/newaliases
+      when: result|changed
+
+    - name: ensure postfix is restarted
+      service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - postfix

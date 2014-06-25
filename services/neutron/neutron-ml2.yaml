@@ -1,0 +1,112 @@
+---
+- name: Install and configure ml2 and neutron agent
+  hosts: neutron-network:nova-compute
+  sudo: True
+  gather_facts: True
+  tags:
+    - openstack
+  vars:
+    component: neutron
+    subcomponent: openvswitch
+    packages:
+      - openvswitch-common
+      - openvswitch-switch
+      - neutron-plugin-ml2
+      - neutron-plugin-openvswitch-agent
+    services:
+      - neutron-plugin-openvswitch-agent
+      - openvswitch-switch
+    config_files:
+      - "{{ component }}.conf"
+      - api-paste.ini
+
+  tasks:
+
+    - name: enable net.ipv4.ip_forward in sysctl
+      sysctl: 
+        name: net.ipv4.ip_forward 
+        value: "1"
+        state: present
+
+    - name: enable net.ipv4.conf.all.forwarding in sysctl
+      sysctl: 
+        name: net.ipv4.conf.all.forwarding 
+        value: "1"
+        state: present
+
+    - name: disable net.ipv4.conf.all.rp_filter in sysctl
+      sysctl: 
+        name: net.ipv4.conf.all.rp_filter 
+        value: "0"
+        state: present
+
+    - name: disable net.ipv4.conf.default.rp_filter in sysctl
+      sysctl: 
+        name: net.ipv4.conf.default.rp_filter 
+        value: "0"
+        state: present
+
+    - name: ensure {{ component }}-{{ subcomponent }} packages are installed
+      apt: 
+        pkg: "{{ item }}"
+        state: latest 
+        update_cache: yes 
+        cache_valid_time: 600
+      with_items: packages
+
+    - name: ensure services are stopped
+      service: 
+        name: "{{ item }}"
+        state: stopped
+      with_items: services
+
+    - name: ensure {{ component }} sqlite is deleted
+      file: 
+        dest: /var/lib/{{ component }}/{{ component }}.sqlite 
+        state: absent
+
+    - name: update configuration files from templates
+      template: 
+        src: templates/etc/{{ component }}/{{ item }}
+        dest: /etc/{{ component }}/{{ item }}
+        owner: "{{ component }}"
+        group: "{{ component }}"
+        mode: 0600
+      with_items: config_files
+
+    - name: update ml2_conf.ini from template
+      template: 
+        src: templates/etc/neutron/plugins/ml2/ml2_conf.ini
+        dest: /etc/neutron/plugins/ml2/ml2_conf.ini
+        owner: neutron 
+        group: neutron 
+        mode: 0600
+
+    - name: make sure symlink to ovs_neutron_plugin.ini exists
+      file: 
+        src: /etc/neutron/plugins/ml2/ml2_conf.ini
+        dest: /etc/neutron/plugin.ini 
+        state: link
+
+    - name: ensure packages to build openvswitch module are installed
+      apt: 
+        pkg: "{{ item }}" 
+        state: latest 
+        update_cache: yes 
+        cache_valid_time: 600
+      with_items:
+        - openvswitch-datapath-dkms
+
+    # apparently this needs a restart when the module is built...
+    - name: ensure openvswitch-switch is started and enabled
+      service: 
+        name: openvswitch-switch 
+        state: restarted 
+        enabled: yes
+
+    - name: ensure neutron openvswitch service is started and enabled
+      service: 
+        name: neutron-plugin-openvswitch-agent 
+        state: restarted 
+        enabled: yes
+

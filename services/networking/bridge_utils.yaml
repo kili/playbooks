@@ -1,0 +1,17 @@
+---
+- name: ensure bridges are setup
+  hosts: qemu-hosts
+  sudo: True
+  gather_facts: True
+  tags:
+    - networking-base
+  tasks:
+
+    - name: ensure bridge utils are installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - bridge-utils

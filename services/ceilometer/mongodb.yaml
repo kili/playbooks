@@ -1,0 +1,21 @@
+---
+- name: Install or verify Ceilometer database
+  hosts: mongodb
+  sudo: True
+  gather_facts: False
+  tags:
+    - openstack
+  tasks:
+
+    - name: ensure ceilometer database user is present
+      mongodb_user: 
+        database: ceilometer
+        user: ceilometer
+        password: "{{ ceilometer_mongodb_password }}" 
+        roles:
+          - readWrite
+          - dbAdmin
+        state: present
+      with_items:
+        - "%"
+        - localhost

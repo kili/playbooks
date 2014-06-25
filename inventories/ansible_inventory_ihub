@@ -1,0 +1,138 @@
+admin-host ansible_ssh_host=192.168.11.101
+main1 ansible_ssh_host=192.168.11.5
+
+[all:vars]
+env_name = ihub
+api_network = 10.2.0.0/16
+public_domain = ihub.kili.io
+pub_url_proto = http
+papertrail_min_loglevel = warning
+horizon_min_loglevel = INFO
+
+external_ntp_host = uk.pool.ntp.org
+management_network = 10.186.43.0/16
+api_network = 10.2.0.0/16
+external_network_name = public
+public_web_address = ihub.kili.io
+public_api_address = api.ihub.kili.io
+
+graphite_carbon_udp_endpoint = 127.0.0.1
+graphite_web_port = 1281
+
+[openstack-hosts]
+main1
+
+[horizon-hosts]
+main1
+
+[collectd-hosts]
+main1
+
+[graphite-hosts]
+main1
+
+[frontend_nginx:children]
+webif_nginx
+api_nginx
+
+[webif_nginx]
+main1
+
+[api_nginx]
+main1
+
+[neutron:vars]
+data_network = 10.3.0.0/16
+external_network = 192.168.0.0/20
+external_network_gateway_ip = 192.168.0.1
+external_network_dns_nameservers = 8.8.8.8
+external_network_allocation_pool_start = 192.168.11.200
+external_network_allocation_pool_end = 192.168.11.250
+
+[swift:vars]
+storage_network = 10.5.0.0/16
+replication_network = 10.6.0.0/16
+
+[mysql]
+main1
+
+[mongodb]
+main1
+
+[rabbitmq]
+main1
+
+[ntpserver]
+main1
+
+[keystone]
+main1
+
+[glance]
+main1
+
+[nova:children]
+nova-controller
+nova-compute
+
+[nova-controller]
+main1
+
+[nova-compute]
+main1
+
+[neutron:children]
+neutron-api
+neutron-network
+nova-compute
+
+[neutron-api]
+main1
+
+[neutron-network]
+main1
+
+[swift:children]
+swift-proxy
+swift-storage
+
+[swift-proxy]
+main1
+
+[swift-storage]
+main1
+
+[cinder:children]
+cinder-api
+cinder-scheduler
+cinder-volume
+
+[cinder-api]
+main1
+
+[cinder-scheduler]
+main1
+
+[cinder-volume]
+main1
+
+[dashboard]
+main1
+
+[heat]
+main1
+
+[ceilometer:children]
+ceilometer-api
+ceilometer-collector
+
+[ceilometer-api]
+main1
+
+[ceilometer-collector]
+main1
+
+[frontend]
+main1
+
+main1

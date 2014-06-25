@@ -1,0 +1,16 @@
+---
+- name: grub settings
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - base-env
+  tasks:
+
+    - name: ensure grub has recordfail_timeout set
+      lineinfile: 'dest=/etc/default/grub state=present regexp="^GRUB_RECORDFAIL_TIMEOUT=5$" line="GRUB_RECORDFAIL_TIMEOUT=5"'
+      register: result
+
+    - name: apply the new grub config
+      command: /usr/sbin/update-grub
+      when: result|changed

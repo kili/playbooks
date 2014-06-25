@@ -1,0 +1,40 @@
+---
+- name: setup network interfaces
+  hosts: all
+  sudo: True
+  gather_facts: True
+  tags:
+    - networking-base
+  vars:
+    debug: True
+  tasks:
+
+    - name: copy network configuration
+      template:
+        src: templates/etc/network/interfaces
+        dest: /etc/network/interfaces
+        owner: root
+        group: root
+        mode: 0644
+      register: result
+
+    - name: copy default gw config
+      template:
+        src: templates/etc/network/if-up.d/add_gateway
+        dest: /etc/network/if-up.d/add_gateway
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: ensure bridge-utils is installed
+      apt:
+        pkg: "{{ item }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      with_items:
+        - bridge-utils
+
+    - name: reboot if network configuration has changed
+      include: reboot.yaml
+      when: result|changed and debug != True

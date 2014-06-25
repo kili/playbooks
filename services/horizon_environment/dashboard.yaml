@@ -1,0 +1,156 @@
+---
+- name: Install horizon
+  hosts: horizon-hosts
+  sudo: True
+  gather_facts: True
+  tags:
+    - horizon-environment
+  tasks:
+
+    - name: ensure packages are installed
+      apt: 
+        pkg: "{{ item }}" 
+        state: latest 
+        update_cache: yes 
+        cache_valid_time: 600
+      with_items: 
+        - libapache2-mod-wsgi
+        - memcached 
+        - openstack-dashboard 
+        - libxslt1-dev
+        - build-essential
+        - libffi-dev
+        - python-dev
+        - python-pip
+        - python-virtualenv
+        - python-mysqldb
+        - libmysqlclient-dev
+        - git
+        - libssl-dev
+        - apache2
+
+    - name: ensure ubuntu theme is removed
+      apt: 
+        pkg: openstack-dashboard-ubuntu-theme 
+        state: absent 
+        purge: yes
+
+    - name: ensure services are stopped
+      service:
+        name: "{{ item }}"
+        state: stopped
+      with_items:
+        - memcached
+        - apache2
+
+    - name: ensure required apache2 modules are enabled
+      file:
+        state: link
+        dest: "/etc/apache2/mods-enabled/{{ item }}"
+        src: "/etc/apache2/mods-available/{{ item }}"
+      with_items:
+        - wsgi.conf
+        - wsgi.load
+
+    - name: update memcached.conf from template
+      template:
+        src: templates/etc/memcached.conf
+        dest: /etc/memcached.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: update local_settings.py from template
+      template:
+        src: templates/etc/openstack-dashboard/local_settings.py
+        dest: /etc/openstack-dashboard/local_settings.py
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: update newrelic settings files
+      template:
+        src: "templates/etc/openstack-dashboard/{{ item }}.ini"
+        dest: "{{ newrelic_config_path }}/{{ item }}.ini"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - newrelic_webapp
+        - newrelic_celeryd
+
+    - name: install apache dashboard conf
+      template:
+        src: templates/etc/apache2/conf-available/openstack-dashboard.conf
+        dest: /etc/apache2/conf-available/openstack-dashboard.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: enable openstack-dashboard.conf apache config
+      file:
+        state: link
+        src: /etc/apache2/conf-available/openstack-dashboard.conf
+        dest: /etc/apache2/conf-enabled/openstack-dashboard.conf
+
+    - name: install apache ports.conf
+      template:
+        src: templates/etc/apache2/ports.conf
+        dest: /etc/apache2/ports.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: ensure services are started and enabled
+      service:
+        name: "{{ item }}"
+        state: restarted
+        enabled: yes
+      with_items:
+        - memcached
+        - apache2
+
+    - name: ensure needed newrelic repository is present
+      apt_repository:
+        repo: deb http://apt.newrelic.com/debian/ newrelic non-free
+        state: present
+      when: env_name == "prod"
+
+    - name: ensure needed newrelic repository is trusted
+      apt_key:
+        url: http://apt.newrelic.com/548C16BF.gpg
+        id: 548C16BF
+        keyring: /etc/apt/trusted.gpg.d/newrelic.gpg
+        state: present
+      when: env_name == "prod"
+
+    - name: ensure newrelic system monitoring daemon is installed
+      apt: 
+        pkg: newrelic-sysmond
+        state: latest 
+      when: env_name == "prod"
+
+    - name: ensure directory for newrelic monitoring daemon config file is present
+      file:
+        path: "/etc/newrelic"
+        owner: root
+        group: root
+        mode: 0755
+        state: directory
+      when: env_name == "prod"
+
+    - name: update newrelic monitoring daemon config file
+      template:
+        src: "templates/etc/newrelic/nrsysmond.cfg"
+        dest: "/etc/newrelic/nrsysmond.cfg"
+        owner: root
+        group: newrelic
+        mode: 0640
+      when: env_name == "prod"
+
+    - name: ensure newrelic system monitoring servic is restarted and enabled
+      service:
+        name: newrelic-sysmond
+        state: restarted
+        enabled: yes
+      when: env_name == "prod"

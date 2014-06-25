@@ -1,0 +1,22 @@
+---
+- name: Install or verify Dashboard database
+  hosts: horizon-hosts
+  sudo: True
+  gather_facts: False
+  tags:
+    - horizon-environment
+  tasks:
+
+    - name: ensure horizon_dashboard database is present
+      mysql_db: 
+        name: horizon_dashboard
+
+    - name: ensure horizon_dashboard database user is present
+      mysql_user: 
+        name: horizon
+        host: "{{ item }}" 
+        password: "{{ horizon_dashboard_db_password }}" 
+        priv: horizon_dashboard.*:ALL
+      with_items:
+        - "%"
+        - localhost

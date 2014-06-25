@@ -1,0 +1,13 @@
+- installer-amd64
+- installer-i386
+- installer-kfreebsd-i386
+- installer-mipsel
+- installer-s390
+- installer-sparc
+- installer-armel
+- installer-armhf
+- installer-ia64
+- installer-kfreebsd-amd64
+- installer-mips
+- installer-powerpc
+- installer-s390x

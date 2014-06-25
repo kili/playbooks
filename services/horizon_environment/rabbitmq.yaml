@@ -1,0 +1,24 @@
+---
+- name: Prepare rabbitmq for horizon dashboard
+  hosts: horizon-hosts
+  sudo: True
+  gather_facts: False
+  tags:
+    - horizon-environment
+  tasks:
+
+    - name: ensure horizon_dashboard vhost is present
+      rabbitmq_vhost:
+        name: "{{ horizon_dashboard_rabbit_vhost }}"
+        state: present
+
+    - name: ensure horizon_dashboard user is present
+      rabbitmq_user:
+        user: "{{ horizon_dashboard_rabbit_user }}"
+        password: "{{ horizon_dashboard_rabbit_password }}"
+        vhost: "{{ horizon_dashboard_rabbit_vhost }}"
+        configure_priv: .*
+        read_priv: .*
+        write_priv: .*
+        state: present
+        force: yes
