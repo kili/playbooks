@@ -26,7 +26,7 @@ horizon_dashboard_rabbit_vhost: "/horizon_dashboard"
 newrelic_license_key: "{{ lookup('password', inventory_dir + '/credentials/newrelic_license_key') }}"
 newrelic_config_path: "/etc/openstack-dashboard"
 
-ssh_pubkeys: "files/ssh_public_keys"
+ssh_pubkeys: "inventories/keys/ssh_public_keys"
 ssh_authorized_keys: [
   "{{ lookup('file', ssh_pubkeys + '/mauro') }}",
   "{{ lookup('file', ssh_pubkeys + '/james') }}",
