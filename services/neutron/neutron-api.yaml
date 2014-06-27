@@ -46,14 +46,6 @@
         mode: 0640
       with_items: config_files
 
-    - name: update ovs_neutron_plugin.ini from template
-      template: 
-        src: templates/etc/neutron/plugins/ml2/ml2_conf.ini
-        dest: /etc/neutron/plugins/ml2/ml2_conf.ini
-        owner: root
-        group: root
-        mode: 0640
-
     - name: make sure symlink to ovs_neutron_plugin.ini exists
       file: 
         src: /etc/neutron/plugins/ml2/ml2_conf.ini

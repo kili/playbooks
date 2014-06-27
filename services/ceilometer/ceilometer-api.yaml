@@ -53,10 +53,9 @@
       with_items: services
 
     - name: make ceilometer-api service dependent on mongodb
-      file:
-        dest: files/init/mongodb.override
-        src: /etc/init/mongodb.override
-        state: file
+      copy:
+        dest: /etc/init/mongodb.override
+        src: files/init/mongodb.override
         owner: root
         group: root
         mode: 0644
