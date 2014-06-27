@@ -1,0 +1,2 @@
+start on starting ceilometer-api
+stop on stopped ceilometer-api

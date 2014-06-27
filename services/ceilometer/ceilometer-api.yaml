@@ -51,3 +51,12 @@
         state: restarted 
         enabled: yes
       with_items: services
+
+    - name: make ceilometer-api service dependent on mongodb
+      file:
+        dest: files/init/mongodb.override
+        src: /etc/init/mongodb.override
+        state: file
+        owner: root
+        group: root
+        mode: 0644
