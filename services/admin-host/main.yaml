@@ -49,13 +49,6 @@
         - "/home/{{ deployment_user }}/deployment"
         - "/home/{{ deployment_user }}/images/creds/"
 
-    - name: ensure key files are present
-      sudo_user: "{{ deployment_user }}"
-      copy:
-        mode: 0600
-        src: files/admin_host/keys/
-        dest: "/home/{{ deployment_user }}/keys/"
-
     - name: clone deployment scripts repo
       sudo_user: "{{ deployment_user }}"
       git:
