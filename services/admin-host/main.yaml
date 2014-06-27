@@ -56,7 +56,7 @@
         accept_hostkey: yes
         dest: /home/deployment/scripts
         update: yes
-        key_file: "/home/{{ deployment_user }}/keys/deployment_scripts/id_rsa"
+        key_file: "/home/{{ deployment_user }}/keys/{{ env_name }}/keys/deployment_scripts/id_rsa"
 
     - name: ensure ansible virtualenv is present
       sudo_user: "{{ deployment_user }}"
