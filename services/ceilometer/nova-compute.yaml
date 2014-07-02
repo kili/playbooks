@@ -14,6 +14,9 @@
       - "{{ component }}-{{ subcomponent }}"
     config_files:
       - "{{ component }}.conf"
+    utopic_pkgs:
+      - python-posix-ipc_0.9.8-2_amd64.deb
+      - python-ceilometer_2014.2+git201406182101~trusty-0ubuntu1_all.deb
 
   tasks:
 
@@ -51,3 +54,22 @@
         state: started
         enabled: yes
       with_items: services
+
+    - name: copy ceilometer-python packages of utopic (for getting the instance status field)
+      copy:
+        dest: "/tmp/{{ item }}"
+        src: "files/packages/{{ item }}"
+        owner: root
+        group: root
+        mode: 0644
+      with_items: utopic_pkgs
+
+    - name: install ceilometer-python packages of utopic
+      command: "dpkg -i /tmp/{{ item }}"
+      with_items: utopic_pkgs
+
+    - name: delete tmp files
+      file:
+        dest: "/tmp/{{ item }}"
+        state: absent
+      with_items: utopic_pkgs
