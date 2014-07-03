@@ -147,3 +147,6 @@ horizon_dashboard_db_password: "{{ lookup('password', inventory_dir + '/credenti
 
 stripe_api_key: "{{ lookup('password', inventory_dir + '/credentials/stripe-api-key') }}"
 stripe_pub_key: "{{ lookup('password', inventory_dir + '/credentials/stripe-pub-key') }}"
+
+k2_api_key: "{{ lookup('password', inventory_dir + '/credentials/k2-api-key') }}"
+k2_authorization_header: "{{ lookup('password', inventory_dir + '/credentials/k2-authorization-header') }}"

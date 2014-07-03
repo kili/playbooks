@@ -57,3 +57,8 @@ CEILOMETER_AUTH_DATA = {
             'os_password': '{{ ceilometer_identity_password }}',
             'os_tenant_name': 'service',
             'os_auth_url': 'http://{{ public_api_address }}/keystone/v2.0'}
+
+K2_API_KEY = '{{ k2_api_key }}'
+K2_AUTHORIZATION_HEADER = '{{ k2_authorization_header }}'
+K2_KES_USD_RATE = 88
+
