@@ -73,3 +73,9 @@
         dest: "/tmp/{{ item }}"
         state: absent
       with_items: utopic_pkgs
+
+    - name: restart and enable ceilometer-agent-compute
+      service:
+        name: ceilometer-agent-compute
+        state: restarted
+        enabled: yes
