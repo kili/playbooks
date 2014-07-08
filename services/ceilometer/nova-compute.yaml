@@ -21,6 +21,11 @@
 
   tasks:
 
+    - name: ensure kili-team ppa is added
+      apt_repository:
+        repo: ppa:kili-team/ppa
+        update_cache: yes
+
     - name: ensure {{ component }}-{{ subcomponent }} packages are installed
       apt: 
         pkg: "{{ item }}"
@@ -55,28 +60,3 @@
         state: started
         enabled: yes
       with_items: services
-
-#    - name: copy ceilometer-python packages of utopic (for getting the instance status field)
-#      copy:
-#        dest: "/tmp/{{ item }}"
-#        src: "files/packages/{{ item }}"
-#        owner: root
-#        group: root
-#        mode: 0644
-#      with_items: utopic_pkgs
-
-#    - name: install ceilometer-python packages of utopic
-#      command: "dpkg -i /tmp/{{ item }}"
-#      with_items: utopic_pkgs
-
-#    - name: delete tmp files
-#      file:
-#        dest: "/tmp/{{ item }}"
-#        state: absent
-#      with_items: utopic_pkgs
-
-#    - name: restart and enable ceilometer-agent-compute
-#      service:
-#        name: ceilometer-agent-compute
-#        state: restarted
-#        enabled: yes

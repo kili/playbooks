@@ -19,6 +19,11 @@
 
   tasks:
 
+    - name: ensure kili-team ppa is added
+      apt_repository:
+        repo: ppa:kili-team/ppa
+        update_cache: yes
+
     - name: ensure {{ component }}-collector packages are installed
       apt: 
         pkg: "{{ item }}"
