@@ -5,6 +5,7 @@
   gather_facts: True
   tags:
     - openstack
+    - openstack-ceilometer-nova
   vars:
     component: ceilometer
     subcomponent: agent-compute
@@ -55,27 +56,27 @@
         enabled: yes
       with_items: services
 
-    - name: copy ceilometer-python packages of utopic (for getting the instance status field)
-      copy:
-        dest: "/tmp/{{ item }}"
-        src: "files/packages/{{ item }}"
-        owner: root
-        group: root
-        mode: 0644
-      with_items: utopic_pkgs
+#    - name: copy ceilometer-python packages of utopic (for getting the instance status field)
+#      copy:
+#        dest: "/tmp/{{ item }}"
+#        src: "files/packages/{{ item }}"
+#        owner: root
+#        group: root
+#        mode: 0644
+#      with_items: utopic_pkgs
 
-    - name: install ceilometer-python packages of utopic
-      command: "dpkg -i /tmp/{{ item }}"
-      with_items: utopic_pkgs
+#    - name: install ceilometer-python packages of utopic
+#      command: "dpkg -i /tmp/{{ item }}"
+#      with_items: utopic_pkgs
 
-    - name: delete tmp files
-      file:
-        dest: "/tmp/{{ item }}"
-        state: absent
-      with_items: utopic_pkgs
+#    - name: delete tmp files
+#      file:
+#        dest: "/tmp/{{ item }}"
+#        state: absent
+#      with_items: utopic_pkgs
 
-    - name: restart and enable ceilometer-agent-compute
-      service:
-        name: ceilometer-agent-compute
-        state: restarted
-        enabled: yes
+#    - name: restart and enable ceilometer-agent-compute
+#      service:
+#        name: ceilometer-agent-compute
+#        state: restarted
+#        enabled: yes

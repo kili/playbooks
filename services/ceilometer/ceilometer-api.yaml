@@ -5,6 +5,7 @@
   gather_facts: True
   tags:
     - openstack
+    - openstack-ceilometer-api
   vars:
     component: ceilometer
     subcomponent: api
