@@ -47,8 +47,8 @@
       with_items:
         - collectstatic --noinput
         - compress
-        - syncdb
-        - migrate
+        - syncdb --noinput
+        - migrate --noinput
 
     - name: create symlinks to link to environment logos
       file:
