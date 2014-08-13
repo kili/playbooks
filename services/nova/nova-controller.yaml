@@ -5,6 +5,7 @@
   gather_facts: True
   tags:
     - openstack
+    - openstack-nova
   vars:
     component: nova
     packages:
@@ -27,6 +28,7 @@
     config_files:
       - "{{ component }}.conf"
       - api-paste.ini
+      - policy.json
 
   tasks:
 

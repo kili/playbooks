@@ -10,8 +10,13 @@
   gather_facts: True
   tags:
     - openstack
+    - openstack-nova
   vars:
     component: nova
+    config_files:
+      - "{{ component }}.conf"
+      - policy.json
+
   tasks:
 
     - name: ensure /boot/vmlinuz is world-readable
@@ -56,13 +61,14 @@
         name: nova-compute
         state: stopped
 
-    - name: ensure nova.conf file is present
-      template:
-        src: templates/etc/nova/nova.conf
-        dest: /etc/nova/nova.conf
-        owner: nova
-        group: nova
+    - name: update configuration files from templates
+      template: 
+        src: templates/etc/{{ component }}/{{ item }}
+        dest: /etc/{{ component }}/{{ item }}
+        owner: "{{ component }}"
+        group: "{{ component }}"
         mode: 0640
+      with_items: config_files
 
     - name: update api-paste.ini from template
       template:
