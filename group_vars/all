@@ -33,6 +33,8 @@ ssh_authorized_keys: [
   "{{ lookup('file', ssh_pubkeys + '/adam') }}",
 ]
 
+stackmonkey_user_id: "{{ lookup('password', inventory_dir + '/credentials/stackmonkey_user_id') }}"
+
 external_ntp_host: pool.ntp.org
 openstack_region: RegionOne
 
