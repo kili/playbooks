@@ -1,0 +1,14 @@
+---
+neutron_network_conf:
+  localhost:
+    primary_network:
+      network_name: ext-net
+      network_bridge: br-ex
+      internal_only_routers: True
+    other_external_networks:
+      - network_name: ext-net2
+        network_bridge: br-ex
+        internal_only_routers: False
+      - network_name: ext-net3
+        network_bridge: br-ex
+        internal_only_routers: False

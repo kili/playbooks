@@ -153,4 +153,3 @@ stripe_pub_key: "{{ lookup('password', inventory_dir + '/credentials/stripe-pub-
 kopokopo_api_key: "{{ lookup('password', inventory_dir + '/credentials/kopokopo-api-key') }}"
 kopokopo_username: "{{ lookup('password', inventory_dir + '/credentials/kopokopo-username') }}"
 kopokopo_password: "{{ lookup('password', inventory_dir + '/credentials/kopokopo-password') }}"
-

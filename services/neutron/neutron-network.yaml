@@ -5,6 +5,7 @@
   gather_facts: True
   tags:
     - openstack
+    - l3-agents
   vars:
     component: neutron
     packages:
@@ -92,6 +93,24 @@
         mode: 0600
       with_items: config_files
 
+    - name: update configuration files for additional l3 agents
+      template: 
+        src: templates/etc/neutron/l3_agent.ini
+        dest: "/etc/neutron/l3_agent_{{ item['network_name'] }}.ini"
+        owner: "{{ component }}"
+        group: "{{ component }}"
+        mode: 0600
+      with_items: neutron_network_conf[env_name]['other_external_networks']
+
+    - name: update init scripts for additional l3 agents
+      template: 
+        src: templates/etc/init/neutron-l3-agent.conf
+        dest: "/etc/init/neutron-l3-agent-{{ item['network_name'] }}.conf"
+        owner: "{{ component }}"
+        group: "{{ component }}"
+        mode: 0600
+      with_items: neutron_network_conf[env_name]['other_external_networks']
+
     - name: ensure services are started and enabled
       service: 
         name: "{{ item }}"
@@ -99,3 +118,9 @@
         enabled: yes
       with_items: services
 
+    - name: ensure additional l3-agent services are started and enabled
+      service: 
+        name: "neutron-l3-agent-{{ item['network_name'] }}"
+        state: restarted 
+        enabled: yes
+      with_items: neutron_network_conf[env_name]['other_external_networks']
