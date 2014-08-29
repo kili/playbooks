@@ -15,12 +15,10 @@
     services:
         - neutron-dhcp-agent
         - neutron-metadata-agent
-        - neutron-l3-agent
     config_files:
       - "{{ component }}.conf"
       - api-paste.ini
       - dhcp_agent.ini
-      - l3_agent.ini
       - metadata_agent.ini
 
   tasks:
@@ -93,23 +91,23 @@
         mode: 0600
       with_items: config_files
 
-    - name: update configuration files for additional l3 agents
+    - name: update config files for l3 agents
       template: 
         src: templates/etc/neutron/l3_agent.ini
-        dest: "/etc/neutron/l3_agent_{{ item['network_name'] }}.ini"
+        dest: "/etc/neutron/l3_agent_{{ item['item']['network_name'] }}.conf"
         owner: "{{ component }}"
         group: "{{ component }}"
         mode: 0600
-      with_items: neutron_network_conf[env_name]['other_external_networks']
+      with_items: external_networks_with_ids['results']
 
-    - name: update init scripts for additional l3 agents
+    - name: update init scripts for l3 agents
       template: 
         src: templates/etc/init/neutron-l3-agent.conf
         dest: "/etc/init/neutron-l3-agent-{{ item['network_name'] }}.conf"
         owner: "{{ component }}"
         group: "{{ component }}"
         mode: 0600
-      with_items: neutron_network_conf[env_name]['other_external_networks']
+      with_items: neutron_network_conf[env_name]['external_networks']
 
     - name: ensure services are started and enabled
       service: 
@@ -118,9 +116,15 @@
         enabled: yes
       with_items: services
 
-    - name: ensure additional l3-agent services are started and enabled
+    - name: ensure default l3-agent service is stopped and disabled
+      service: 
+        name: neutron-l3-agent
+        state: stopped
+        enabled: no
+
+    - name: ensure l3-agent services are started and enabled
       service: 
         name: "neutron-l3-agent-{{ item['network_name'] }}"
         state: restarted 
         enabled: yes
-      with_items: neutron_network_conf[env_name]['other_external_networks']
+      with_items: neutron_network_conf[env_name]['external_networks']

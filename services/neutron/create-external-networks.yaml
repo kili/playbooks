@@ -7,19 +7,7 @@
     - neutron-external-networks
   tasks:
 
-    - name: ensure primary net is registered
-      neutron_network:
-        auth_url: "{{ keystone_public_url }}"
-        login_tenant_name: admin
-        login_username: admin
-        login_password: "{{ admin_password }}"
-        tenant_name: admin
-        router_external: True
-        name: "{{ neutron_network_conf[env_name]['primary_network']['network_name'] }}"
-        state: present
-      register: primary_network
-
-    - name: ensure other networks are registered
+    - name: ensure networks are registered
       neutron_network:
         auth_url: "{{ keystone_public_url }}"
         login_tenant_name: admin
@@ -29,5 +17,5 @@
         router_external: True
         name: "{{ item['network_name'] }}"
         state: present
-      with_items: neutron_network_conf[env_name]['other_external_networks']
-      register: other_network
+      with_items: neutron_network_conf[env_name]['external_networks']
+      register: external_networks_with_ids
