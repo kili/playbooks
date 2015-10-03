@@ -96,6 +96,7 @@
         cache_valid_time: 600
       with_items:
         - openvswitch-datapath-dkms
+      ignore_errors: yes
 
     # apparently this needs a restart when the module is built...
     - name: ensure openvswitch-switch is started and enabled
