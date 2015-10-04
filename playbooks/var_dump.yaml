@@ -1,0 +1,3 @@
+tasks:
+  - name: Dump all vars
+    action: template src=templates/var_dump.jinja2 dest=/tmp/ansible.all
