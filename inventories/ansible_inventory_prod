@@ -1,4 +1,4 @@
-admin-host ansible_ssh_host=154.72.0.18
+admin-host ansible_ssh_host=154.72.0.6
 main1 ansible_ssh_host=10.1.0.2
 repository-cache ansible_ssh_host=154.72.0.14
 
